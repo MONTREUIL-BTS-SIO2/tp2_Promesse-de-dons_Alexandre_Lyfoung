@@ -31,6 +31,9 @@ class PromesseDon
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $dateHonore = null;
 
+    #[ORM\ManyToOne(inversedBy: 'promesseDons')]
+    private ?Campagne $campagne = null;
+
 
     public function getId(): ?int
     {
@@ -105,6 +108,18 @@ class PromesseDon
     public function setDateHonore(?\DateTimeImmutable $dateHonore): self
     {
         $this->dateHonore = $dateHonore;
+
+        return $this;
+    }
+
+    public function getCampagne(): ?Campagne
+    {
+        return $this->campagne;
+    }
+
+    public function setCampagne(?Campagne $campagne): self
+    {
+        $this->campagne = $campagne;
 
         return $this;
     }
