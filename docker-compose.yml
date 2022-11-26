@@ -15,7 +15,7 @@ services:
     volumes:
       - ./dbdata:/var/lib/mysql
   phpmyadmin:
-    container_name: pma-80_PromesseDon
+    container_name: pma-80-PromesseDon
     image: phpmyadmin/phpmyadmin
     ports:
       - "8082:80"
