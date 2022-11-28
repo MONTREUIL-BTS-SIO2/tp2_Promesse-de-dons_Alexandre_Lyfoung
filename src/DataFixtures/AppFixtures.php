@@ -4,17 +4,27 @@ namespace App\DataFixtures;
 
 use App\Entity\Campagne;
 use App\Entity\PromesseDon;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    private $encode;
+
+    public function __construct(UserPasswordHasherInterface $password)
+    {
+        $this->encode = $password;
+    }
+
     public function load(ObjectManager $manager): void
     {
         // $product = new Product();
         // $manager->persist($product);
         $this->loadCampagnePromesse($manager);
+        $this->loadUser($manager);
     }
 
     public function loadCampagnePromesse(ObjectManager $manager)
@@ -41,10 +51,18 @@ class AppFixtures extends Fixture
             $manager->persist($campagne);
 
             //$this->addReference('promesse', $promesse);
-
         }
         $manager->flush();
     }
 
+    public function loadUser(ObjectManager $manager)
+    {
+        $user = new User();
+        $user->setEmail("toto@tata.com");
+        $user->setRoles(['ROLE_USER']);
+        $user->setPassword($this->encode->hashPassword($user, "toto"));
 
+        $manager->persist($manager);
+        $manager->flush();
+    }
 }
