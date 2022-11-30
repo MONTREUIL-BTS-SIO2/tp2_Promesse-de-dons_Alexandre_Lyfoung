@@ -12,7 +12,11 @@
     <h1>Promesse de Don</h1>
 
     <h2>Accueil</h2>
-    <a href="/login"><button class="btn btn-lg btn-primary" type="button" spellcheck="">Login</button></a>
-    <a href=""><button class="btn btn-lg btn-secondary">Accueil</button></a>
+    <a href="{{ path('app_login') }}" class="btn btn-lg btn-primary" type="button">Login</a>
+    <a href="{{ path('app_campagne_index') }}" class="btn btn-lg btn-secondary" role="button">Campagne</a>
+    {% if is_granted('ROLE_USER')%}
+        <a href="{{ path('app_promesse_don_index') }}" class="btn btn-lg btn-info" role="button">Don</a>
+        <a href="{{ path('app_logout') }}" class="btn btn-lg btn-primary" role="button">Logout</a>
+    {% endif %}
 </div>
 {% endblock %}

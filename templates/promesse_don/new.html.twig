@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New PromesseDon{% endblock %}
+
+{% block body %}
+    <h1>Create new PromesseDon</h1>
+
+    {{ include('promesse_don/_form.html.twig') }}
+
+    <a href="{{ path('app_promesse_don_index') }}">back to list</a>
+{% endblock %}

@@ -62,7 +62,7 @@ class AppFixtures extends Fixture
         $user->setRoles(['ROLE_USER']);
         $user->setPassword($this->encode->hashPassword($user, "toto"));
 
-        $manager->persist($manager);
+        $manager->persist($user);
         $manager->flush();
     }
 }

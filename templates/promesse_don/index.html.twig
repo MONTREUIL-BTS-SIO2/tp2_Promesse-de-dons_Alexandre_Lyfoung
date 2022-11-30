@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PromesseDon index{% endblock %}
+
+{% block body %}
+    <h1>PromesseDon index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Prenom</th>
+                <th>Nom</th>
+                <th>MontantDon</th>
+                <th>DateDeCreation</th>
+                <th>DateHonore</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for promesse_don in promesse_dons %}
+            <tr>
+                <td>{{ promesse_don.id }}</td>
+                <td>{{ promesse_don.email }}</td>
+                <td>{{ promesse_don.prenom }}</td>
+                <td>{{ promesse_don.nom }}</td>
+                <td>{{ promesse_don.montantDon }}</td>
+                <td>{{ promesse_don.dateDeCreation ? promesse_don.dateDeCreation|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ promesse_don.dateHonore ? promesse_don.dateHonore|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_promesse_don_show', {'id': promesse_don.id}) }}">show</a>
+                    <a href="{{ path('app_promesse_don_edit', {'id': promesse_don.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_promesse_don_new') }}">Create new</a>
+{% endblock %}
