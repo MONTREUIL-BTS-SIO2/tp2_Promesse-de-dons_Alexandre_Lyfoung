@@ -47,7 +47,7 @@ class AppFixtures extends Fixture
             $campagne = new Campagne();
             $campagne->addPromesseDon($promesse);
             $campagne->setNom($faker->name());
-            //$campagne->setDescription($faker->text);
+            //$campagne->setDescription($faker->text(100));
             $manager->persist($campagne);
 
             //$this->addReference('promesse', $promesse);

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Campagne;
 use App\Entity\PromesseDon;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +38,17 @@ class PromesseDonRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function searchByCampagne(string $campagneId){
+        $manager = $this->getEntityManager();
+        $query = $manager->createQuery(
+            'SELECT d, c
+            FROM App\Entity\PromesseDon d
+            INNER JOIN d.campagne c
+            WHERE c.id = :id')->setParameter('id', $campagneId);
+        return $query->getResult();
+
     }
 
 //    /**

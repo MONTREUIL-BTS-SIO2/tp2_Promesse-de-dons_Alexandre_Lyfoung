@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Campagne;
 use App\Entity\PromesseDon;
 use App\Form\PromesseDonType;
+use App\Repository\CampagneRepository;
 use App\Repository\PromesseDonRepository;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,8 +20,18 @@ class PromesseDonController extends AbstractController
     #[Route('/', name: 'app_promesse_don_index', methods: ['GET'])]
     public function index(PromesseDonRepository $promesseDonRepository): Response
     {
+
         return $this->render('promesse_don/index.html.twig', [
             'promesse_dons' => $promesseDonRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{id}/index', name: 'app_promesse_don_index_id', methods: ['GET', 'POST'])]
+    public function indexId(PromesseDonRepository $promesseDonRepository, Request $request)
+    {
+        $id = $request->attributes->get('id');
+        return $this->render('promesse_don/index.html.twig', [
+            'promesse_dons' => $promesseDonRepository->searchByCampagne($id)
         ]);
     }
 
@@ -27,6 +41,7 @@ class PromesseDonController extends AbstractController
         $promesseDon = new PromesseDon();
         $form = $this->createForm(PromesseDonType::class, $promesseDon);
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $promesseDonRepository->save($promesseDon, true);
@@ -40,20 +55,45 @@ class PromesseDonController extends AbstractController
         ]);
     }
 
+    #[Route('/new/{id}', name: 'app_promesse_don_new_by_campagne', methods: ['GET', 'POST'])]
+    public function newId(Request $request, PromesseDonRepository $promesseDonRepository, CampagneRepository $campagneRepository, int $id): Response
+    {
+        $campagnId = $campagneRepository->find($id);
+        dump($campagnId);
+        $promesseDon = new PromesseDon();
+        $user = $this->getUser();
+        $form = $this->createForm(PromesseDonType::class, $promesseDon);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $promesseDon->setCampagne($campagnId);
+            $promesseDonRepository->save($promesseDon, true);
+
+            return $this->redirectToRoute('app_campagne_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('promesse_don/new.html.twig', [
+            'promesse_don' => $promesseDon,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_promesse_don_show', methods: ['GET'])]
-    public function show(PromesseDon $promesseDon): Response
+    public function show(PromesseDon $promesseDon, CampagneRepository $campagneRepository): Response
     {
         return $this->render('promesse_don/show.html.twig', [
             'promesse_don' => $promesseDon,
+            'campagne_id' => $campagneRepository->find($promesseDon->getCampagne()->getId())->getId()
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_promesse_don_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, PromesseDon $promesseDon, PromesseDonRepository $promesseDonRepository): Response
+    public function edit(Request $request, PromesseDon $promesseDon, PromesseDonRepository $promesseDonRepository, CampagneRepository $campagneRepository): Response
     {
         $form = $this->createForm(PromesseDonType::class, $promesseDon);
         $form->handleRequest($request);
-
+        $campagneId = $campagneRepository->find($promesseDon->getCampagne()->getId())->getId();
         if ($form->isSubmitted() && $form->isValid()) {
             $promesseDonRepository->save($promesseDon, true);
 
@@ -63,6 +103,7 @@ class PromesseDonController extends AbstractController
         return $this->renderForm('promesse_don/edit.html.twig', [
             'promesse_don' => $promesseDon,
             'form' => $form,
+            'campagne_id'=> $campagneId
         ]);
     }
 

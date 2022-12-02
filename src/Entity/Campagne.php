@@ -17,9 +17,18 @@ class Campagne
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Type(
+        type: 'string',
+        message: 'La valeur $nom n\'est pas de type String'
+    )]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(
+        min:0,
+        max:2000
+    )]
     private ?string $description = null;
 
     #[ORM\OneToMany(mappedBy: 'campagne', targetEntity: PromesseDon::class)]

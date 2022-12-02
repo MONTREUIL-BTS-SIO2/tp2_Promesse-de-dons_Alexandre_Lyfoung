@@ -7,7 +7,7 @@
 
     {{ include('promesse_don/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_promesse_don_index') }}">back to list</a>
+    <a href="{{ path('app_promesse_don_index_id', {'id': campagne_id}) }}">Retour</a>
 
     {{ include('promesse_don/_delete_form.html.twig') }}
 {% endblock %}

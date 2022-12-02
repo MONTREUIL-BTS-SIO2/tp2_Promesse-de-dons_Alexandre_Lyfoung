@@ -1,20 +1,53 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CampagneController!{% endblock %}
+{% block title %}Campagne index{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Alex/Desktop/SLAM/Pechberty/tp2_PromesseDeDon_AlexandreLyfoung/PromesseDeDon/src/Controller/CampagneController.php'|file_link(0) }}">src/Controller/CampagneController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Alex/Desktop/SLAM/Pechberty/tp2_PromesseDeDon_AlexandreLyfoung/PromesseDeDon/templates/campagne/index.html.twig'|file_link(0) }}">templates/campagne/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center display-1">Liste des Campagnes</h1>
+        </div>
+        <div class="row">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    {#  <th>Id</th>#}
+                    <th class="text-center">Nom</th>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <th class="text-center">Voir les dons</th>
+                    {% endif %}
+                    <th class="text-center">Faire un don</th>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <th class="text-center">actions</th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for campagne in campagnes %}
+                    <tr>
+                            {# <td>{{ campagne.id }}</td> #}
+                            <td class="text-center">{{ campagne.nom }}</td>
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <td class="text-center"><a href="{{ path('app_promesse_don_index_id', { 'id': campagne.id }) }}" class="btn btn-primary btn-sm" type="button">Voir les dons</a></td>
+                        {% endif %}
+                        <td class="text-center"><a href="{{ path('app_promesse_don_new_by_campagne',{'id': campagne.id}) }}" class="btn btn-primary btn-sm" type="button"> Faire une promesse de don</a></td>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <td class="text-center">
+                                <a href="{{ path('app_campagne_show', {'id': campagne.id}) }}" class="btn btn-primary btn-sm" type="button">show</a>
+                                <a href="{{ path('app_campagne_edit', {'id': campagne.id}) }}" class="btn btn-primary btn-sm" type="button">edit</a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a class="btn btn-primary " type="btn" href="{{ path('app_campagne_new') }}">Ajouter une campagne</a>
+        {% endif %}
+    </div>
 {% endblock %}

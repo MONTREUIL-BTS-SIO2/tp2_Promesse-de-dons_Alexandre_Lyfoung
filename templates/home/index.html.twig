@@ -8,15 +8,17 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Promesse de Don</h1>
-
-    <h2>Accueil</h2>
-    <a href="{{ path('app_login') }}" class="btn btn-lg btn-primary" type="button">Login</a>
-    <a href="{{ path('app_campagne_index') }}" class="btn btn-lg btn-secondary" role="button">Campagne</a>
-    {% if is_granted('ROLE_USER')%}
-        <a href="{{ path('app_promesse_don_index') }}" class="btn btn-lg btn-info" role="button">Don</a>
-        <a href="{{ path('app_logout') }}" class="btn btn-lg btn-primary" role="button">Logout</a>
-    {% endif %}
+<div class="container">
+    <div class="row align-items-start">
+        <h1 class="display-1 text-center">Promesse de Don</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <a href="{{ path('app_campagne_index') }}" class="btn btn-lg btn-primary float-right" role="button">Campagne</a>
+            {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+                <a href="{{ path('app_promesse_don_index') }}" class="btn btn-lg btn-info float-left" role="button">Don</a>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}
