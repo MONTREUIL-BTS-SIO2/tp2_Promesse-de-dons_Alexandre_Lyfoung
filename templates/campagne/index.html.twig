@@ -11,7 +11,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    {#  <th>Id</th>#}
+
                     <th class="text-center">Nom</th>
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <th class="text-center">Voir les dons</th>
@@ -26,7 +26,7 @@
                 {% for campagne in campagnes %}
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <tr>
-                        {# <td>{{ campagne.id }}</td> #}
+
                         <td class="text-center">{{ campagne.nom }}</td>
                         <td class="text-center"><a href="{{ path('app_promesse_don_index_id', { 'id': campagne.id }) }}" class="btn btn-primary btn-sm" type="button">Voir les dons</a></td>
                         <td class="text-center"><a href="{{ path('app_promesse_don_new_by_campagne',{'id': campagne.id}) }}" class="btn btn-primary btn-sm" type="button"> Faire une promesse de don</a></td>

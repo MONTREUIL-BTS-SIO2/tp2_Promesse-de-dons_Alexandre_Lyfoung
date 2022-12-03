@@ -21,10 +21,8 @@ class PromesseDonController extends AbstractController
     #[Route('/', name: 'app_promesse_don_index', methods: ['GET'])]
     public function index(PromesseDonRepository $promesseDonRepository): Response
     {
-
         return $this->render('promesse_don/index.html.twig', [
             'promesse_dons' => $promesseDonRepository->findAll(),
-
         ]);
     }
 

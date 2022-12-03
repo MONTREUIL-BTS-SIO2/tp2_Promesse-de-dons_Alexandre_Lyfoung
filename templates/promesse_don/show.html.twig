@@ -38,9 +38,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_promesse_don_index_id', {'id': campagne_id})}}">back to list</a>
+    <a href="{{ path('app_promesse_don_index_id', {'id': campagne_id})}}" class="btn btn-secondary" type="button">Retour</a>
 
-    <a href="{{ path('app_promesse_don_edit', {'id': promesse_don.id}) }}">edit</a>
+    <a href="{{ path('app_promesse_don_edit', {'id': promesse_don.id}) }}" class="btn btn-primary" type="button">Modifier</a>
 
 
 {% endblock %}
