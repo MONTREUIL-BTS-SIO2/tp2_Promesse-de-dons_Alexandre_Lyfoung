@@ -23,29 +23,55 @@ class AppFixtures extends Fixture
     {
         // $product = new Product();
         // $manager->persist($product);
-        $this->loadCampagnePromesse($manager);
+        $array = $this->loadPromesse($manager);
+        $this->loadCampagne($manager, $array);
         $this->loadUser($manager);
     }
 
-    public function loadCampagnePromesse(ObjectManager $manager)
+    public function loadPromesse(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
-
-        for ($i = 0; $i<10; $i++)
+        $array_promesse = [];
+        for ($i = 0; $i<50; $i++)
         {
             $promesse = new PromesseDon();
             $promesse->setNom($faker->lastName);
             $promesse->setPrenom($faker->firstName);
             $promesse->setEmail($faker->email);
             $promesse->setDateDeCreation(\DateTimeImmutable::createFromMutable($faker->dateTime()));
-            $promesse->setMontantDon($faker->randomDigit);
+            if ($i % 3 === 0)
+            {
+                $promesse->setDateHonore(\DateTimeImmutable::createFromMutable($faker->dateTime()));
+                $promesse->getDateHonore()->modify("+1 day");
+            }
+            $promesse->setMontantDon($faker->numberBetween(1, 100));
 
+            $array_promesse[] = $promesse;
 
 
             $manager->persist($promesse);
 
+
+            //$this->addReference('promesse', $promesse);
+        }
+        $manager->flush();
+        return $array_promesse;
+    }
+
+    public function loadCampagne(ObjectManager $manager, $array)
+    {
+        $faker = Factory::create('fr_FR');
+        for ($i = 0; $i<20; $i++)
+        {
+            $nb_rand = rand(0, count($array));
+            $new_array = array_slice($array, 0, $nb_rand);
+            $array = array_slice($array, $nb_rand, count($array));
             $campagne = new Campagne();
-            $campagne->addPromesseDon($promesse);
+
+            for($j = 0; $j<$nb_rand; $j++)
+            {
+                $campagne->addPromesseDon($new_array[$j]);
+            }
             $campagne->setNom($faker->name());
             //$campagne->setDescription($faker->text(100));
             if ($i%2 === 0)
@@ -56,10 +82,8 @@ class AppFixtures extends Fixture
                 $campagne->setActive(false);
             }
             $manager->persist($campagne);
-
-            //$this->addReference('promesse', $promesse);
         }
-        $manager->flush();
+
     }
 
     public function loadUser(ObjectManager $manager)

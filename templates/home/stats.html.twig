@@ -37,14 +37,14 @@
                         <thead>
                         <tr>
                             <th class="text-center">Nom Campagne</th>
-                            <th class="text-center">Nombre de Promesse de dons</th>
+                            <th class="text-center">Total Promesse de dons Honore</th>
                         </tr>
                         {% for i in 0..2 %}
                         {% if i < Dons3Recu|length %}
                         <tbody>
                         <tr>
                             <td class="text-center">{{ Dons3Recu[i].nom }}</td>
-                            <td class="text-center">{{ Dons3Recu[i].Somme }}</td>
+                            <td class="text-center">{{ Dons3Recu[i].Somme }}€</td>
                         </tr>
                         </tbody>
                         {% endif %}
