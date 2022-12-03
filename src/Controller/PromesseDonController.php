@@ -113,13 +113,5 @@ class PromesseDonController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_promesse_don_delete', methods: ['POST'])]
-    public function delete(Request $request, PromesseDon $promesseDon, PromesseDonRepository $promesseDonRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$promesseDon->getId(), $request->request->get('_token'))) {
-            $promesseDonRepository->remove($promesseDon, true);
-        }
 
-        return $this->redirectToRoute('app_promesse_don_index', [], Response::HTTP_SEE_OTHER);
-    }
 }

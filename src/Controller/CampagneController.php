@@ -100,13 +100,5 @@ class CampagneController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_campagne_delete', methods: ['POST'])]
-    public function delete(Request $request, Campagne $campagne, CampagneRepository $campagneRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$campagne->getId(), $request->request->get('_token'))) {
-            $campagneRepository->remove($campagne, true);
-        }
 
-        return $this->redirectToRoute('app_campagne_index', [], Response::HTTP_SEE_OTHER);
-    }
 }
