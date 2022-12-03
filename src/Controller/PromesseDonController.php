@@ -21,21 +21,21 @@ class PromesseDonController extends AbstractController
     #[Route('/', name: 'app_promesse_don_index', methods: ['GET'])]
     public function index(PromesseDonRepository $promesseDonRepository): Response
     {
-        $pageDon = true;
+
         return $this->render('promesse_don/index.html.twig', [
             'promesse_dons' => $promesseDonRepository->findAll(),
-            'pageDon' => $pageDon
+
         ]);
     }
 
     #[Route('/{id}/index', name: 'app_promesse_don_index_id', methods: ['GET', 'POST'])]
-    public function indexId(PromesseDonRepository $promesseDonRepository, Request $request)
+    public function indexId(PromesseDonRepository $promesseDonRepository, Request $request, CampagneRepository $campagneRepository)
     {
         $id = $request->attributes->get('id');
-        $pageDon = false;
+        $campagne = $campagneRepository->find($id);
         return $this->render('promesse_don/index.html.twig', [
             'promesse_dons' => $promesseDonRepository->searchByCampagne($id),
-            'pageDon'=> $pageDon
+            'campagne' => $campagne
         ]);
     }
 

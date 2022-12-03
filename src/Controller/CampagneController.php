@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Campagne;
 use App\Form\CampagneType;
 use App\Repository\CampagneRepository;
+use PHPUnit\Framework\Constraint\Count;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,29 @@ class CampagneController extends AbstractController
     #[Route('/', name: 'app_campagne_index', methods: ['GET'])]
     public function index(CampagneRepository $campagneRepository): Response
     {
+        $mostDonRecolte = $campagneRepository->findMostDonRecolte();
+        $mostDon = $campagneRepository->findMostDon();
+        $nbTotalDon = $campagneRepository->findNumberDonByCampagne();
+        $nbDonHonore = $campagneRepository->findNumberDonHonoreByCamapgne();
+        $i = 0;
+        $conv_array = array();
+        foreach ($nbTotalDon as $don)
+        {
+
+            while($i < count($nbDonHonore) && strcmp($don['nom'], $nbDonHonore[$i]['nom']) !== 0)
+            {
+                $i++;
+            }
+            if ($i < count($nbDonHonore))
+            {
+                $conv_array[$don['nom']] = round($nbDonHonore[$i]['Somme']/$don['Somme'], 2);
+            }
+            else
+            {
+                $conv_array[$don['nom']] = 0;
+            }
+        }
+
         return $this->render('campagne/index.html.twig', [
             'campagnes' => $campagneRepository->findAll(),
         ]);
@@ -42,10 +66,18 @@ class CampagneController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_campagne_show', methods: ['GET'])]
-    public function show(Campagne $campagne): Response
+    public function show(Campagne $campagne, CampagneRepository $campagneRepository): Response
     {
+        $donNonPaye = $campagneRepository->findDonEnAttenteByCampagneID((string)$campagne->getId());
+        $donPaye = $campagneRepository->findDonPayeByCampagneID((string)$campagne->getId());
+        $nombreTotalDonRecolteCampagne = $campagneRepository->findMostDonRecolteByCampagneId((string)$campagne->getId());
+        $nombreTotalDonCampagne = $campagneRepository->findMostDonPromisByCampagneId((string)$campagne->getId());
+        $conversion = round($nombreTotalDonRecolteCampagne[0]['Somme']/$nombreTotalDonCampagne[0]['Somme'], 2) *100;
         return $this->render('campagne/show.html.twig', [
             'campagne' => $campagne,
+            'conversion'=>$conversion,
+            'donsHonores'=>$donPaye,
+            'donsNonHonores'=>$donNonPaye
         ]);
     }
 

@@ -39,6 +39,119 @@ class CampagneRepository extends ServiceEntityRepository
         }
     }
 
+    public function findMostDon()
+    {
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT c.nom, Count(d.campagne) as NbDon
+            FROM App\Entity\PromesseDon d
+            INNER JOIN d.campagne c
+            GROUP BY c.nom
+            ORDER BY NbDon DESC');
+
+        $result = $query->execute();
+
+        return $result;
+    }
+
+    public function findDonEnAttenteByCampagneID(String $id)
+    {
+        $query = $this->getEntityManager()->createQuery('
+            SELECT Sum(d.montantDon) as MontantDonAttente
+            FROM App\Entity\PromesseDon d
+            INNER JOIN d.campagne c
+            WHERE c.id = :id AND d.dateHonore IS Null')->setParameter('id', $id);
+
+        return $query->execute();
+    }
+
+    public function findDonPayeByCampagneID(String $id)
+    {
+        $query = $this->getEntityManager()->createQuery('
+            SELECT Sum(d.montantDon) as MontantPaye
+            FROM App\Entity\PromesseDon d
+            INNER JOIN d.campagne c
+            WHERE c.id = :id AND d.dateHonore IS NOT Null')->setParameter('id', $id);
+
+        return $query->execute();
+    }
+
+    public function findMostDonRecolte()
+    {
+        $query = $this->getEntityManager()->createQuery('
+        SELECT c.nom, SUM(d.montantDon) as Somme
+        FROM App\Entity\PromesseDon d
+        INNER JOIN d.campagne c
+        WHERE d.dateHonore IS NOT NULL
+        GROUP BY c.nom
+        ORDER by Somme DESC
+        ');
+
+        $result = $query->execute();
+        return $result;
+    }
+    public function findMostDonRecolteByCampagneId(String $id)
+    {
+        $query = $this->getEntityManager()->createQuery('
+        SELECT SUM(d.montantDon) as Somme
+        FROM App\Entity\PromesseDon d
+        INNER JOIN d.campagne c
+        WHERE d.dateHonore IS NOT NULL AND c.id = :id
+        ')->setParameter('id', $id);
+        $result = $query->execute();
+
+        return $result;
+    }
+    public function findMostDonPromisByCampagneId(String $id)
+    {
+        $query = $this->getEntityManager()->createQuery('
+        SELECT SUM(d.montantDon) as Somme
+        FROM App\Entity\PromesseDon d
+        INNER JOIN d.campagne c
+        WHERE c.id = :id
+        ')->setParameter('id', $id);
+        $result = $query->execute();
+        //dd($result);
+        return $result;
+    }
+
+    public function findNumberDonByCampagne()
+    {
+        $query = $this->getEntityManager()->createQuery('
+        SELECT c.nom, COUNT(d.montantDon) as Somme
+        FROM App\Entity\PromesseDon d
+        INNER JOIN d.campagne c 
+        GROUP BY c.nom
+        ');
+
+        return $query->execute();
+    }
+
+    public function findNumberDonHonoreByCamapgne()
+    {
+        $query = $this->getEntityManager()->createQuery('
+        SELECT c.nom, COUNT(d.montantDon) as Somme
+        FROM App\Entity\PromesseDon d
+        INNER JOIN d.campagne c
+        WHERE d.dateHonore IS NOT Null
+        GROUP BY c.nom
+        ');
+
+        return $query->execute();
+    }
+
+    public function findNumberDonHonoreByCamapgneId(String $id)
+    {
+        $query = $this->getEntityManager()->createQuery('
+        SELECT c.nom, COUNT(d.montantDon) as Somme
+        FROM App\Entity\PromesseDon d
+        INNER JOIN d.campagne c
+        WHERE d.dateHonore IS NOT Null
+        GROUP BY c.nom
+        ');
+
+        return $query->execute();
+    }
+
 //    /**
 //     * @return Campagne[] Returns an array of Campagne objects
 //     */

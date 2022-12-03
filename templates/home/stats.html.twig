@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stats{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-md-12">
+                <div class="row">
+                    <h4>Top 3 campagne avec le plus de promesse dons</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Nom Campagne</th>
+                                <th class="text-center">Nombre de Promesse de dons</th>
+                            </tr>
+                        {% for i in 0..2 %}
+                            {% if i < plusDon3|length %}
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">{{ plusDon3[i].nom }}</td>
+                                    <td class="text-center">{{ plusDon3[i].NbDon }}</td>
+                                </tr>
+                            </tbody>
+                            {% endif %}
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col col-md-12">
+                <div class="row">
+                    <h4>Top 3 des campagnes ayant le recolté le plus de dons</h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th class="text-center">Nom Campagne</th>
+                            <th class="text-center">Nombre de Promesse de dons</th>
+                        </tr>
+                        {% for i in 0..2 %}
+                        {% if i < Dons3Recu|length %}
+                        <tbody>
+                        <tr>
+                            <td class="text-center">{{ Dons3Recu[i].nom }}</td>
+                            <td class="text-center">{{ Dons3Recu[i].Somme }}</td>
+                        </tr>
+                        </tbody>
+                        {% endif %}
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col col-md-12">
+                <div class="row">
+                    <h4>Top 3 des campagnes ayant le meilleur ratio Nb Promesse Honore par rapport aux Nb de Promesse de Don reçu</h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th class="text-center">Nom Campagne</th>
+                            <th class="text-center">Pourcentage (NbPromesseHonore / NbPromesseTotal)</th>
+                        </tr>
+                        {% for key, value in conversion %}
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">{{ key }}</td>
+                                    <td class="text-center">{{ value }}%</td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

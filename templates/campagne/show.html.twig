@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Campagne{% endblock %}
+{% block title %}Campagne Visualisation{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -21,6 +21,18 @@
                 <tr>
                     <th class="text-center">Description</th>
                     <td class="text-center">{{ campagne.description }}</td>
+                </tr>
+                <tr>
+                    <th class="text-center">Montant des Dons Non payés</th>
+                    <td class="text-center">{{ donsNonHonores[0].MontantDonAttente }} €</td>
+                </tr>
+                <tr>
+                    <th class="text-center">Montant des Dons payés</th>
+                    <td class="text-center">{{ donsHonores[0].MontantPaye }} €</td>
+                </tr>
+                <tr>
+                    <th class="text-center">Pourcentage</th>
+                    <td class="text-center">{{ conversion}}% </td>
                 </tr>
                 </tbody>
             </table>

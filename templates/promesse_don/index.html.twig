@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PromesseDon index{% endblock %}
+{% block title %}Liste des Promesses de Dons de la campagne {{ campagne.nom }}{% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="row">
-            <h1 class="display-1 text-center">Liste des Promesses de Dons</h1>
+            <h1 class="display-1 text-center">Liste des Promesses de Dons de la campagne {{ campagne.nom }}</h1>
         </div>
         <div class="row">
             <div class="col-sm-12">
@@ -57,11 +57,9 @@
         {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
             <a href="{{ path('app_promesse_don_new') }}" class="btn btn-primary" type="button">Faire un Don</a>
         {% endif %}
-        {% if  pageDon  %}
-            <a href="{{ path('app_home') }}" class="btn btn-secondary" type="button">Retour</a>
-        {% else %}
+
             <a href="{{ path('app_campagne_index') }}" class="btn btn-secondary" type="button">Retour</a>
-        {% endif %}
+
     </div>
 
 {% endblock %}
