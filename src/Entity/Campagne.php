@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: CampagneRepository::class)]
 class Campagne
@@ -34,6 +36,10 @@ class Campagne
     #[ORM\OneToMany(mappedBy: 'campagne', targetEntity: PromesseDon::class)]
     private Collection $promesseDons;
 
+    #[ORM\Column]
+    #[Assert\NotNull]
+    private ?bool $active = null;
+
     public function __construct()
     {
         $this->promesseDons = new ArrayCollection();
@@ -48,6 +54,7 @@ class Campagne
     {
         return $this->nom;
     }
+
 
     public function setNom(string $nom): self
     {
@@ -94,6 +101,18 @@ class Campagne
                 $promesseDon->setCampagne(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }

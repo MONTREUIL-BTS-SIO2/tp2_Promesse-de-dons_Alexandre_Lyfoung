@@ -7,6 +7,7 @@ use App\Entity\PromesseDon;
 use App\Repository\CampagneRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -54,11 +55,19 @@ class PromesseDonType extends AbstractType
                         'placeholder'=>'10'
                     ]
                 ])
-                ->add('dateDeCreation', DateTimeType::class, [
-                    'required' => true,
-                    'input'=>'datetime_immutable'
-                ])
-                ->add('dateHonore')
+                //->add('dateDeCreation', DateTimeType::class, [
+                //    'required' => true,
+                //    'input'=>'datetime_immutable'
+                //])
+                ->add('dateHonore', DateTimeType::class, [
+                    'required' =>false,
+                    'input' => 'datetime_immutable'
+                    ])// CheckboxType::class,
+                /*[
+                    'required' => false,
+                    'label'=> 'Promesse Honore',
+                    'mapped'=> false
+                ])*/
                 //->add('campagne')
             ;
         }
@@ -88,10 +97,10 @@ class PromesseDonType extends AbstractType
                         'placeholder'=>'10'
                     ]
                 ])
-                ->add('dateDeCreation', DateTimeType::class, [
-                    'required' => true,
-                    'input' => 'datetime_immutable'
-                ])
+                //->add('dateDeCreation', DateTimeType::class, [
+                //    'required' => true,
+                //    'input' => 'datetime_immutable'
+                //])
                 //->add('dateHonore')
                 //->add('campagne')
             ;

@@ -24,20 +24,25 @@
                 </thead>
                 <tbody>
                 {% for campagne in campagnes %}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <tr>
-                            {# <td>{{ campagne.id }}</td> #}
-                            <td class="text-center">{{ campagne.nom }}</td>
-                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                <td class="text-center"><a href="{{ path('app_promesse_don_index_id', { 'id': campagne.id }) }}" class="btn btn-primary btn-sm" type="button">Voir les dons</a></td>
-                        {% endif %}
+                        {# <td>{{ campagne.id }}</td> #}
+                        <td class="text-center">{{ campagne.nom }}</td>
+                        <td class="text-center"><a href="{{ path('app_promesse_don_index_id', { 'id': campagne.id }) }}" class="btn btn-primary btn-sm" type="button">Voir les dons</a></td>
                         <td class="text-center"><a href="{{ path('app_promesse_don_new_by_campagne',{'id': campagne.id}) }}" class="btn btn-primary btn-sm" type="button"> Faire une promesse de don</a></td>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <td class="text-center">
-                                <a href="{{ path('app_campagne_show', {'id': campagne.id}) }}" class="btn btn-primary btn-sm" type="button">show</a>
-                                <a href="{{ path('app_campagne_edit', {'id': campagne.id}) }}" class="btn btn-primary btn-sm" type="button">edit</a>
-                            </td>
-                        {% endif %}
+                        <td class="text-center">
+                            <a href="{{ path('app_campagne_show', {'id': campagne.id}) }}" class="btn btn-primary btn-sm" type="button">Voir Campagne</a>
+                        </td>
                     </tr>
+                    {% else %}
+                        {% if campagne.active %}
+                            <tr>
+                                {# <td>{{ campagne.id }}</td> #}
+                                <td class="text-center">{{ campagne.nom }}</td>
+                                <td class="text-center"><a href="{{ path('app_promesse_don_new_by_campagne',{'id': campagne.id}) }}" class="btn btn-primary btn-sm" type="button"> Faire une promesse de don</a></td>
+                            </tr>
+                        {% endif %}
+                    {% endif %}
                 {% else %}
                     <tr>
                         <td colspan="4">no records found</td>
@@ -49,5 +54,6 @@
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <a class="btn btn-primary " type="btn" href="{{ path('app_campagne_new') }}">Ajouter une campagne</a>
         {% endif %}
+        <a class="btn btn-secondary " type="btn" href="{{ path('app_home') }}">Retour</a>
     </div>
 {% endblock %}

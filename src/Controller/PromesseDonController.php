@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use http\Url;
 
 #[Route('/promesse/don')]
 class PromesseDonController extends AbstractController
@@ -20,9 +21,10 @@ class PromesseDonController extends AbstractController
     #[Route('/', name: 'app_promesse_don_index', methods: ['GET'])]
     public function index(PromesseDonRepository $promesseDonRepository): Response
     {
-
+        $pageDon = true;
         return $this->render('promesse_don/index.html.twig', [
             'promesse_dons' => $promesseDonRepository->findAll(),
+            'pageDon' => $pageDon
         ]);
     }
 
@@ -30,8 +32,10 @@ class PromesseDonController extends AbstractController
     public function indexId(PromesseDonRepository $promesseDonRepository, Request $request)
     {
         $id = $request->attributes->get('id');
+        $pageDon = false;
         return $this->render('promesse_don/index.html.twig', [
-            'promesse_dons' => $promesseDonRepository->searchByCampagne($id)
+            'promesse_dons' => $promesseDonRepository->searchByCampagne($id),
+            'pageDon'=> $pageDon
         ]);
     }
 
@@ -44,6 +48,7 @@ class PromesseDonController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $promesseDonRepository->save($promesseDon, true);
 
             return $this->redirectToRoute('app_promesse_don_index', [], Response::HTTP_SEE_OTHER);
@@ -58,13 +63,12 @@ class PromesseDonController extends AbstractController
     #[Route('/new/{id}', name: 'app_promesse_don_new_by_campagne', methods: ['GET', 'POST'])]
     public function newId(Request $request, PromesseDonRepository $promesseDonRepository, CampagneRepository $campagneRepository, int $id): Response
     {
+        //dd($request->getPassword());
         $campagnId = $campagneRepository->find($id);
-        dump($campagnId);
         $promesseDon = new PromesseDon();
-        $user = $this->getUser();
+        $lastPage = $request->headers->get('referer');
         $form = $this->createForm(PromesseDonType::class, $promesseDon);
         $form->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             $promesseDon->setCampagne($campagnId);
@@ -95,9 +99,11 @@ class PromesseDonController extends AbstractController
         $form->handleRequest($request);
         $campagneId = $campagneRepository->find($promesseDon->getCampagne()->getId())->getId();
         if ($form->isSubmitted() && $form->isValid()) {
+
             $promesseDonRepository->save($promesseDon, true);
 
-            return $this->redirectToRoute('app_promesse_don_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_promesse_don_index_id', ['id'=>$campagneId], Response::HTTP_SEE_OTHER);
+            //return $this->redirectToRoute('app_promesse_don_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('promesse_don/edit.html.twig', [

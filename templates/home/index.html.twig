@@ -15,9 +15,6 @@
     <div class="row">
         <div class="col-sm-12 text-center">
             <a href="{{ path('app_campagne_index') }}" class="btn btn-lg btn-primary float-right" role="button">Campagne</a>
-            {% if is_granted('IS_AUTHENTICATED_FULLY')%}
-                <a href="{{ path('app_promesse_don_index') }}" class="btn btn-lg btn-info float-left" role="button">Don</a>
-            {% endif %}
         </div>
     </div>
 </div>

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PromesseDonRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PromesseDonRepository::class)]
 class PromesseDon
@@ -14,23 +15,25 @@ class PromesseDon
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(['message'=>"Vous n'avez pas rempli le champ Email"])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Regex('/[a-zA-Z]/' , message: "Il y a des chiffres dans votre prenom")]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Regex('/[a-zA-Z]/' , message: "Il y a des chiffres dans votre prenom")]
     private ?string $nom = null;
 
     #[ORM\Column]
     #[Assert\NotBlank]
+    #[Assert\Positive]
     private ?int $montantDon = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank]
     private ?\DateTimeImmutable $dateDeCreation = null;
 
     #[ORM\Column(nullable: true)]
@@ -39,6 +42,10 @@ class PromesseDon
     #[ORM\ManyToOne(inversedBy: 'promesseDons')]
     private ?Campagne $campagne = null;
 
+    public function __construct()
+    {
+        $this->dateDeCreation = new \DateTimeImmutable("now", null);
+    }
 
     public function getId(): ?int
     {

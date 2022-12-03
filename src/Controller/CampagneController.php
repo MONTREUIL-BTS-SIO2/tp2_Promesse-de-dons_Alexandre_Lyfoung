@@ -37,6 +37,7 @@ class CampagneController extends AbstractController
         return $this->renderForm('campagne/new.html.twig', [
             'campagne' => $campagne,
             'form' => $form,
+            'id' => null
         ]);
     }
 
@@ -63,6 +64,7 @@ class CampagneController extends AbstractController
         return $this->renderForm('campagne/edit.html.twig', [
             'campagne' => $campagne,
             'form' => $form,
+            'id'=> $campagne->getId(),
         ]);
     }
 

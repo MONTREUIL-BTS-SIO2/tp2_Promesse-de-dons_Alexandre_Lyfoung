@@ -40,8 +40,8 @@
                             {% endif %}
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 <td class="text-center">
-                                    <a href="{{ path('app_promesse_don_show', {'id': promesse_don.id}) }}" class="btn btn-primary btn-sm" type="button">show</a>
-                                    <a href="{{ path('app_promesse_don_edit', {'id': promesse_don.id}) }}" class="btn btn-primary btn-sm" type="button">edit</a>
+                                    <a href="{{ path('app_promesse_don_show', {'id': promesse_don.id}) }}" class="btn btn-primary btn-sm" type="button">Visualiser</a>
+                                    <a href="{{ path('app_promesse_don_edit', {'id': promesse_don.id, 'test':true}) }}" class="btn btn-primary btn-sm" type="button">Modifier</a>
                                 </td>
                             {% endif %}
                         </tr>
@@ -54,6 +54,14 @@
                 </table>
             </div>
         </div>
+        {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a href="{{ path('app_promesse_don_new') }}" class="btn btn-primary" type="button">Faire un Don</a>
+        {% endif %}
+        {% if  pageDon  %}
+            <a href="{{ path('app_home') }}" class="btn btn-secondary" type="button">Retour</a>
+        {% else %}
+            <a href="{{ path('app_campagne_index') }}" class="btn btn-secondary" type="button">Retour</a>
+        {% endif %}
     </div>
-    <a href="{{ path('app_promesse_don_new') }}" class="btn btn-primary" type="button">Faire un Don</a>
+
 {% endblock %}
