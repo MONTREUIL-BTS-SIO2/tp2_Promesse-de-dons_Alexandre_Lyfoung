@@ -72,7 +72,15 @@ class CampagneController extends AbstractController
         $donPaye = $campagneRepository->findDonPayeByCampagneID((string)$campagne->getId());
         $nombreTotalDonRecolteCampagne = $campagneRepository->findMostDonRecolteByCampagneId((string)$campagne->getId());
         $nombreTotalDonCampagne = $campagneRepository->findMostDonPromisByCampagneId((string)$campagne->getId());
-        $conversion = round($nombreTotalDonRecolteCampagne[0]['Somme']/$nombreTotalDonCampagne[0]['Somme'], 2) *100;
+
+        if (is_null($nombreTotalDonCampagne[0]['Somme']))
+        {
+            $conversion = 0;
+        }
+        else
+        {
+            $conversion = round($nombreTotalDonRecolteCampagne[0]['Somme']/$nombreTotalDonCampagne[0]['Somme'], 2) *100;
+        }
         return $this->render('campagne/show.html.twig', [
             'campagne' => $campagne,
             'conversion'=>$conversion,

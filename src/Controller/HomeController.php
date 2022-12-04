@@ -70,10 +70,10 @@ class HomeController extends AbstractController
             $conv_array[] = $nom;
             $conv_array[] = $max;
             unset($nbTotalDon[$index]);
+
             $max = 0;
             $nom = "";
             $j = 0;
-
         }
         $conversion = array($conv_array[0] => $conv_array[1], $conv_array[2] => $conv_array[3], $conv_array[4] => $conv_array[5]);
         return $this->render('home/stats.html.twig',[

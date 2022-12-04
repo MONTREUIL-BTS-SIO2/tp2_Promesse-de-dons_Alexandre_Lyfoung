@@ -54,16 +54,19 @@ class AppFixtures extends Fixture
 
             //$this->addReference('promesse', $promesse);
         }
-        $manager->flush();
+
         return $array_promesse;
     }
 
     public function loadCampagne(ObjectManager $manager, $array)
     {
         $faker = Factory::create('fr_FR');
+
         for ($i = 0; $i<20; $i++)
         {
+
             $nb_rand = rand(0, count($array));
+
             $new_array = array_slice($array, 0, $nb_rand);
             $array = array_slice($array, $nb_rand, count($array));
             $campagne = new Campagne();
@@ -72,8 +75,8 @@ class AppFixtures extends Fixture
             {
                 $campagne->addPromesseDon($new_array[$j]);
             }
-            $campagne->setNom($faker->name());
-            //$campagne->setDescription($faker->text(100));
+            $campagne->setNom($faker->word);
+            $campagne->setDescription($faker->paragraph(3, true));
             if ($i%2 === 0)
             {
                 $campagne->setActive(true);
@@ -83,15 +86,16 @@ class AppFixtures extends Fixture
             }
             $manager->persist($campagne);
         }
+        $manager->flush();
 
     }
 
     public function loadUser(ObjectManager $manager)
     {
         $user = new User();
-        $user->setEmail("toto@tata.com");
+        $user->setEmail("user@ort.fr");
         $user->setRoles(['ROLE_USER']);
-        $user->setPassword($this->encode->hashPassword($user, "toto"));
+        $user->setPassword($this->encode->hashPassword($user, "password"));
 
         $manager->persist($user);
         $manager->flush();

@@ -24,11 +24,21 @@
                 </tr>
                 <tr>
                     <th class="text-center">Montant des Dons Non payés</th>
-                    <td class="text-center">{{ donsNonHonores[0].MontantDonAttente }} €</td>
+                    {% if donsNonHonores[0].MontantDonAttente is null %}
+                        <td class="text-center">0 €</td>
+                    {% else %}
+                        <td class="text-center">{{ donsNonHonores[0].MontantDonAttente }} €</td>
+                    {% endif %}
+
                 </tr>
                 <tr>
                     <th class="text-center">Montant des Dons payés</th>
-                    <td class="text-center">{{ donsHonores[0].MontantPaye }} €</td>
+                    {% if donsHonores[0].MontantPaye  is null %}
+                        <td class="text-center">0 €</td>
+                    {% else %}
+                        <td class="text-center">{{ donsHonores[0].MontantPaye }} €</td>
+                    {% endif %}
+
                 </tr>
                 <tr>
                     <th class="text-center">Pourcentage</th>

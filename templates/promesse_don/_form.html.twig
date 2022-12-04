@@ -1,6 +1,6 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn btn-primary btn-">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-primary btn-">{{ button_label|default('Valider') }}</button>
     {% if campagne_id is defined %}
         <a href="{{ path('app_promesse_don_index_id', {'id': campagne_id}) }}" class="btn btn-secondary" type="button">Retour</a>
     {% else %}

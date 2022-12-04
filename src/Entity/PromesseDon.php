@@ -37,6 +37,7 @@ class PromesseDon
     private ?\DateTimeImmutable $dateDeCreation = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank]
     private ?\DateTimeImmutable $dateHonore = null;
 
     #[ORM\ManyToOne(inversedBy: 'promesseDons')]
