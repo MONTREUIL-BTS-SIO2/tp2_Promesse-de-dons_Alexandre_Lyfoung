@@ -62,7 +62,7 @@ and by typing "localhost:8000" in your url search bar you will have the project 
 ### How do it work ?
 
 First you will have this page :
-![HomePage](HomePage.PNG)
+![HomePage](Image/HomePage.PNG)
 
 There is many option here:
 - You can authenticate yourself with the user pre-registered by clicking on **"Login"**
@@ -77,19 +77,19 @@ You will be an Authenticated user.
 #### As an non authenticated user
 
 You have clicked on the button before login so you will have this page : 
-![Campagne_liste_ano](VoirDons-user.PNG)
+![Campagne_liste_ano](Image/VoirDons-user.PNG)
 
 On this page you can make a donation for one of a campaign by clicking on the button **"Faire une promesse de don"**
 
 You will have this page then :
-![PromesseDon_New](CreateDon-Ano.PNG)
+![PromesseDon_New](Image/CreateDon-Ano.PNG)
 
 You just have to fill the form with your information and then click on the button **"Valider"** and your donation will be accepted.
 
 #### As an authenticated user
 
 Your home page will be like this :
-![HomeUser](HomeUser.PNG)
+![HomeUser](Image/HomeUser.PNG)
 
 You can see that you are authentificated with the email that appear in the navbar.
 
@@ -98,31 +98,31 @@ You will also have an new option called **"Stat"** but that for later.
 By clicking on **"Campagne"**
 
 Your interface will be like this :
-![Campagne-user](campagne-user.PNG)
+![Campagne-user](Image/campagne-user.PNG)
 
 Like the annonymous user you can make a donation but you can also check the donation campaign with the button **"Voir Campagne"**
 - This will display this page : 
- ![ShowCampagne](ShowCampagne.PNG)  
+ ![ShowCampagne](Image/ShowCampagne.PNG)  
  and you can modify the donation campaign
- ![ModifyCampagne](ModifyCampagne.PNG)
+ ![ModifyCampagne](Image/ModifyCampagne.PNG)
  > if checkbox **"Active"** is checked annonymous user can not see this donation campaign
 
 
 If you click on **"Voir les Dons"** you will have this :
-![VoirListeDons](VoirDons-user.PNG)
+![VoirListeDons](Image/VoirDons-user.PNG)
 
 On this page you can modify a donation or see a donation
 
 **"Visualiser"** button display :
-![VoirDon](VoirDon.PNG)
+![VoirDon](Image/VoirDon.PNG)
 
 **"Modifier"** button display:
-![ModifierDon](ModifierDon.PNG)
+![ModifierDon](Image/ModifierDon.PNG)
 
 > Note: You can now put a date when the donation has been done
 
 To Finish you have access to the page **"Stats"** 
-![StatsPage](Stat.PNG)
+![StatsPage](Image/Stat.PNG)
 It's show you the 3 campaign that has the most donation, the most received donation and the 3 that has the better ratio between received and get promises.
 
 ### Support
